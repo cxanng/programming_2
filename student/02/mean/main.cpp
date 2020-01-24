@@ -2,7 +2,7 @@
 using namespace std;
 int mean(int number_of_components)
 {
-        int i = 1, sum, x;
+        int i = 1, sum = 0, x;
         if (number_of_components >=1) {
                 while (i <= number_of_components) {
                         cout << "Input " << i << ". number: ";
