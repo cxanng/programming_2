@@ -16,6 +16,7 @@ int mean(int number_of_components)
         }
         else {
                 cout << "Cannot count mean value from 0 numbers";
+                return 0;
         }
 }
 
