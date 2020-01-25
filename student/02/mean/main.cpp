@@ -2,7 +2,8 @@
 using namespace std;
 int mean(int number_of_components)
 {
-        int i = 1, sum = 0, x;
+        int i = 1;
+        float sum = 0, x, result;
         if (number_of_components >=1) {
                 while (i <= number_of_components) {
                         cout << "Input " << i << ". number: ";
@@ -10,8 +11,8 @@ int mean(int number_of_components)
                         sum += x;
                         i++;
                 }
-                cout << "Mean value of the given numbers is "<< (sum/number_of_components);
-                return 0;
+                return (sum/number_of_components);
+                cout << "Mean value of the given numbers is "<< sum/number_of_components;
 
         }
         else {
