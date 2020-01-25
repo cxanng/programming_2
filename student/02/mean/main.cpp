@@ -1,31 +1,35 @@
 #include <iostream>
-using namespace std;
-int mean(int number_of_components)
-{
-        int i = 1;
-        float sum = 0, x, result;
-        if (number_of_components >=1) {
-                while (i <= number_of_components) {
-                        cout << "Input " << i << ". number: ";
-                        cin >> x;
-                        sum += x;
-                        i++;
-                }
-                return (sum/number_of_components);
-                cout << "Mean value of the given numbers is "<< sum/number_of_components;
+#include <iomanip>
 
-        }
-        else {
-                cout << "Cannot count mean value from 0 numbers";
-                return 0;
-        }
+using namespace std;
+
+double mean(int number_of_components)
+{
+    int i = 1;
+    double x;
+    double sum = 0.0;
+    while (i <= number_of_components) {
+        cout << "Input " << i << ". number: ";
+        cin >> x;
+        sum += x;
+        i++;
+    }
+    return (sum/number_of_components);
 }
 
 int main()
 {
     int num;
-        cout << "From how many integer numbers you want to count the mean value? ";
+    double result = 0.0;
+    cout << "From how many integer numbers you want to count the mean value? ";
     cin >> num;
-    mean(num);
-    return 0;
+    if (num >= 1){
+        result = mean(num);
+        cout << "Mean value of the given numbers is " << std::setprecision(2) << result << endl;
+    }
+    else {
+        cout << "Cannot count mean value from 0 numbers" << endl;
+    }
+
+    return EXIT_SUCCESS;
 }
