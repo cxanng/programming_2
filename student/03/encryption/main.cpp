@@ -13,8 +13,8 @@ int main()
         cout << "Error! The encryption key must contain 26 characters." << endl;
     }
     else {
-        int i =0;
-        for (i; i <26 ; i++) {
+        int i;
+        for (i=0; i <26 ; i++) {
             char ch = key.at(i);
             if (isupper(ch)) {
                 cout << "Error! The encryption key must contain only lower case characters." << endl;
@@ -29,7 +29,9 @@ int main()
             else {
                 cout << "Enter the text to be encrypted: ";
                 cin >> encrypt;
-                for (i=0 ;i < encrypt.length(); i++) {
+                string::size_type len =0;
+                len = int(encrypt.length());
+                for (i=0 ;(unsigned)i < len; i++) {
                     result += key.at(original.find(encrypt.at(i)));
                 }
             }
