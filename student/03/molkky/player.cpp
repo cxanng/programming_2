@@ -1,4 +1,4 @@
-#include "Player.hh"
+#include "player.hh"
 #include <string>
 #include <iostream>
 #include <cstdlib>
