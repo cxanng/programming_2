@@ -32,7 +32,7 @@ bool same_values(std::vector< int > ints) {
 bool is_ordered_non_strict_ascending(std::vector < int > ints) {
     if (ints.size( ) > 1) {
         for (int i =0; (unsigned) i < ints.size() -1 ; i++ ) {
-            if (ints[i] >= ints[i+1]) {
+            if (ints[i] > ints[i+1]) {
                 return false;
             }
         }
@@ -46,7 +46,7 @@ bool is_ordered_non_strict_ascending(std::vector < int > ints) {
 bool is_geometric_series(std::vector < int > ints) {
     if (ints.size() >2) {
         for (int i = 0; (unsigned) i < ints.size() -2; i++) {
-            if ( ints[i] * ints[i+2] != ints[i+1]* ints[i+1]) {
+            if ( ints[i] * ints[i+2] != ints[i+1]* ints[i+1] ||  ints[i]*ints[i+2] == 0) {
                 return false;
             }
         }
