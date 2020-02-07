@@ -1,14 +1,45 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <ctime>
 
 using namespace std;
 
 void produce_random_numbers(unsigned int lower, unsigned int upper)
 {
-    // Implement your function here
-}
+    string command_1, command_2;
+    cout << "Enter a seed value or an empty line: ";
+    getline(cin, command_1);
+    if (command_1 == "" ) {
+        default_random_engine randomGenerator(time(0));
+        uniform_int_distribution<int> randomNum(lower, upper);
 
+        cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
+        cout << "Press enter to continue or q to quit: " ;
+        getline(cin, command_2);
+        while (command_2 !="q") {
+            cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
+            cout << "Press enter to continue or q to quit: " ;
+            getline(cin, command_2);
+        }
+
+
+
+    }
+    else {
+        default_random_engine randomGenerator(stoi(command_1));
+        uniform_int_distribution<int> randomNum(lower, upper);
+
+        cout << "Your drawn random number is " << randomNum(randomGenerator) << endl ;
+        cout << "Press enter to continue or q to quit: " ;
+        getline(cin, command_2);
+        while (command_2 !="q") {
+            cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
+            cout << "Press enter to continue or q to quit: " ;
+            getline(cin, command_2);
+        }
+    }
+}
 int main()
 {
     unsigned int lower_bound, upper_bound;
