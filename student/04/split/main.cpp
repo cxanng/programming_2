@@ -6,6 +6,45 @@
 // TODO: Implement split function here
 // Do not change main function
 
+std::vector < std::string > split(std::string str, char separator, bool empty = false) {
+    std::vector < std::string > list;
+    std::string element = "";
+    std::string copied_str = str;
+    std::string::size_type n = copied_str.length();
+    for (int i=0;(unsigned) i < n ; i++) {
+        if (copied_str.at(i) != separator) {
+            element += copied_str.at(i);
+        }
+        else {
+            if (empty) {
+                if (element != "") {
+                    list.push_back(element);
+                }
+            }
+            else {
+                list.push_back(element);
+            }
+            element ="";
+        }
+    }
+    if (empty) {
+        if (element != "") {
+            list.push_back(element);
+        }
+    }
+    else {
+        list.push_back(element);
+    }
+        if (not empty) {
+            while (copied_str.back() == separator) {
+
+                list.push_back("");
+                copied_str.erase(copied_str.length()-1);
+            }
+        }
+    return list;
+}
+
 
 int main()
 {
