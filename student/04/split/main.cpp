@@ -10,8 +10,8 @@ std::vector < std::string > split(std::string str, char separator, bool empty = 
     std::vector < std::string > list;
     std::string element = "";
     std::string copied_str = str;
-    std::string::size_type n = copied_str.length();
-    for (int i=0;(unsigned) i < n ; i++) {
+    int n = copied_str.length();
+    for (int i=0; i < n ; i++) {
         if (copied_str.at(i) != separator) {
             element += copied_str.at(i);
         }
@@ -32,16 +32,8 @@ std::vector < std::string > split(std::string str, char separator, bool empty = 
             list.push_back(element);
         }
     }
-    else {
-        list.push_back(element);
-    }
-        if (not empty) {
-            while (copied_str.back() == separator) {
 
-                list.push_back("");
-                copied_str.erase(copied_str.length()-1);
-            }
-        }
+
     return list;
 }
 
@@ -65,4 +57,5 @@ int main()
     for( auto part : parts_no_empty ) {
         std::cout << part << std::endl;
     }
+    return EXIT_SUCCESS;
 }
