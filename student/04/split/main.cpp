@@ -11,6 +11,7 @@ std::vector < std::string > split(std::string str, char separator, bool empty = 
     std::string element = "";
     std::string copied_str = str;
     int n = copied_str.length();
+
     for (int i=0; i < n ; i++) {
         if (copied_str.at(i) != separator) {
             element += copied_str.at(i);
@@ -26,12 +27,18 @@ std::vector < std::string > split(std::string str, char separator, bool empty = 
             }
             element ="";
         }
-    }
-    if (empty) {
-        if (element != "") {
-            list.push_back(element);
+        if (i ==n-1) {
+            if (empty) {
+                if (element != "") {
+                       list.push_back(element);
+                            }
+             }
+             else {
+                  list.push_back(element);
+             }
         }
     }
+
 
 
     return list;
