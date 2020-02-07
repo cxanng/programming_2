@@ -10,6 +10,7 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
     string command_1, command_2;
     cout << "Enter a seed value or an empty line: ";
     getline(cin, command_1);
+    cout << "\n";
     if (command_1 == "" ) {
         default_random_engine randomGenerator(time(0));
         uniform_int_distribution<int> randomNum(lower, upper);
@@ -17,10 +18,12 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
         cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
         cout << "Press enter to continue or q to quit: " ;
         getline(cin, command_2);
+        cout << "\n";
         while (command_2 !="q") {
             cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
             cout << "Press enter to continue or q to quit: " ;
             getline(cin, command_2);
+            cout << "\n";
         }
 
 
@@ -33,10 +36,12 @@ void produce_random_numbers(unsigned int lower, unsigned int upper)
         cout << "Your drawn random number is " << randomNum(randomGenerator) << endl ;
         cout << "Press enter to continue or q to quit: " ;
         getline(cin, command_2);
+        cout << "\n";
         while (command_2 !="q") {
             cout << "Your drawn random number is " << randomNum(randomGenerator) << endl;
             cout << "Press enter to continue or q to quit: " ;
             getline(cin, command_2);
+            cout << "\n";
         }
     }
 }
