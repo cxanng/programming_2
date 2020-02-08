@@ -3,10 +3,10 @@
  * Class: Board
  *
  * Program author ( Fill with your own info )
- * Name: Teemu Teekkari
- * Student number: 123456
- * UserID: teekkart ( Necessary due to gitlab folder naming. )
- * E-Mail: teemu.teekkari@tuni.fi
+ * Name: Nguyen The Anh
+ * Student number: 292126
+ * UserID: cxanng
+ * E-Mail: anh.t.nguyen@tuni.fi
  *
  * Notes:
  *
@@ -15,6 +15,7 @@
 #include "board.hh"
 #include <iostream>
 #include <iomanip>
+#include <random>
 
 const int EMPTY = 16;
 const unsigned int PRINT_WIDTH = 5;
@@ -53,4 +54,65 @@ void Board::my_shuffle(std::vector<unsigned int> &numbers, int seed)
         numbers.at(random_index) = temp;
     }
 }
+
+void Board::initialize_random_board(int seed)
+{
+    std::vector<unsigned int> numbers;
+    for (unsigned int i =0; i < EMPTY ; i++) {
+        numbers.push_back(i+1);
+    }
+    my_shuffle(numbers, seed);
+
+    for (unsigned int i = 0; i < SIZE; i++) {
+        std::vector <unsigned int> row;
+        for (unsigned int j = 0; j < SIZE; j++) {
+            row.push_back(numbers.at( SIZE * i +j));
+        }
+        this->grid_.push_back( row);
+
+    }
+}
+
+void Board::initialize_manual_board(std::vector<unsigned int> numbers) {
+    for (unsigned int i = 0; i < SIZE; i++) {
+        std::vector <unsigned int> row;
+        for (unsigned int j = 0; j < SIZE; j++) {
+            row.push_back(numbers.at( SIZE * i +j));
+        }
+        this->grid_.push_back( row);
+
+    }
+}
+
+std::vector<int> Board::find_location(unsigned int number) {
+    std::vector<int> location = {};
+    for (unsigned int i = 0; i < grid_.size(); i++) {
+        for (unsigned int j = 0; j < SIZE; j++) {
+            if (grid_.at(i).at(j) == number) {
+                location.push_back(i);
+                location.push_back(j);
+            }
+        }
+    }
+    return location;
+}
+void Board::move_in_direction(std::string command, int position) {
+    std::vector <int> empty_location = find_location(16);
+    std::vector <int> moving_location = find_location(position);
+    if (command == "a") {
+        // Check if the empty space is on the left of the moving piece
+        if (empty_location[1] == moving_location[1] || empty_location[0] == moving_location[0] -1) {
+        // Swap two value
+            int temp = grid_.at(empty_location[0]).at(empty_location[1]);
+            grid_.at(empty_location[0]).at(empty_location[1]) = grid_.at(moving_location[0]).at(moving_location[1]);
+            grid_.at(moving_location[0]).at(moving_location[1]) = temp;
+        }
+        else {
+            std::cout << "Impossible direction: " << command;
+        }
+    }
+
+}
+
+
 

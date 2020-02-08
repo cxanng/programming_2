@@ -4,10 +4,10 @@
  *  Describes a two-dimensional grid for puzzle 15 with necessary functions.
  *
  * Program author ( Fill with your own info )
- * Name: Teemu Teekkari
- * Student number: 123456
- * UserID: teekkart ( Necessary due to gitlab folder naming. )
- * E-Mail: teemu.teekkari@tuni.fi
+ * Name: Nguyen The Anh
+ * Student number: 292126
+ * UserID: cxanng
+ * E-Mail: anh.t.nguyen@tuni.fi
  *
  * Notes:
  *
@@ -16,6 +16,7 @@
 #ifndef BOARD_HH
 #define BOARD_HH
 #include <vector>
+#include <string>
 
 const int SIZE = 4;
 
@@ -29,9 +30,12 @@ public:
 
     // Prints the game grid
     void print();
-
+    
     // More methods
-
+    void initialize_random_board(int seed);
+    void initialize_manual_board(std::vector<unsigned int> numbers);
+    std::vector<int> find_location(unsigned int number);
+    void move_in_direction(std::string command, int position);
 private:
     // Shuffles the numbers vector by using seed as a seed value
     void my_shuffle(std::vector<unsigned int>& numbers, int seed);
