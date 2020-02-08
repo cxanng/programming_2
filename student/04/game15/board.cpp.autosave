@@ -129,7 +129,7 @@ void Board::move_in_direction(std::string command, int position) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
-            std::cout << "Impossible direction: " << command;
+            std::cout << "Impossible direction: " << command << s;
         }
     }
     else if (command == "s") {
@@ -138,7 +138,7 @@ void Board::move_in_direction(std::string command, int position) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
-            std::cout << "Impossible direction: " << command;
+            std::cout << "Impossible direction: " << command<< std::endl;
         }
     }
 }

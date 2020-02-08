@@ -38,11 +38,18 @@ std::string check_initial_command(std::string& command) {
     return command;
 }
 
-//std::string check_move_command(std::string &command) {
-//    while(command != "a")
-//}
+bool check_moving_command(std::string command) {
+    if (command != "a" && command != "s" && command != "d" && command != "w" && command != "q") {
+        return false;
+    }
+    else {
+        return true;
+    }
+
+}
+
 bool check_number(std::vector<unsigned int> numbers){
-    bool check_array[50] = {false};
+    bool check_array[17] = {false};
     for (unsigned int i = 0 ; i < numbers.size() ; i++) {
         if ( numbers[i] >=1 && numbers[i] <= 16) {
             check_array[numbers[i]] = true;
@@ -81,7 +88,8 @@ int main()
     if (command == "n" || command == "N") {
         std::vector<unsigned int> numbers ={};
         unsigned int temp;
-        std::cout << "Enter the numbers 1-16 in a desired order (16 means empty):" << std::endl;
+        std::cout << "Enter the numbers 1-16 in a "
+                     "desired order (16 means empty):" << std::endl;
         for (unsigned int i = 0; i < 16; i++){
             std::cin >>temp;
             numbers.push_back(temp);
@@ -95,7 +103,31 @@ int main()
         }
 
     }
-    grid.print();
+
+    while (true) {
+        std::string row;
+        grid.print();
+        std::cout << "Dir (command, number): ";
+        getline(std::cin, row);
+        command = row.front();
+
+        if (command == "q"){
+            return EXIT_SUCCESS;
+        }
+        else {
+            unsigned int num = stoi(row.substr(2));
+            if (check_moving_command(command) && num >=1 && num <=16) {
+                grid.move_in_direction(command, num);
+            }
+            else if (not check_moving_command(command)) {
+                std::cout << "Unknown command: " << command << std::endl;
+            }
+            else if (num <1 || num >16) {
+                std::cout << "Invalid number: " << num << std::endl;
+            }
+        }
+   }
+
 
     return EXIT_SUCCESS;
 }
