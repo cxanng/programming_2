@@ -27,21 +27,6 @@
 #include <algorithm>
 
 const int EMPTY = 16;
-std::vector<std::string> split_DIR_row(std::string row) {
-    std::vector<std::string> result = {};
-    std:: string element = "";
-    for (unsigned int i =0; i < row.length(); i++) {
-        if (row.at(i) != ' ') {
-            element += row.at(i);
-        }
-        else {
-            result.push_back(element);
-            result.push_back(row.substr(i+1));
-        }
-    }
-    return result;
-}
-
 std::string check_initial_command(std::string& command) {
     // Check the first command to choose random initialization or not
     while (command !="y" && command !="Y" && command != "n" && command != "N" ){
@@ -137,13 +122,13 @@ int main()
         std::cout << "Dir (command, number): ";
         getline(std::cin, row);
 
-        command = split_DIR_row(row)[0];
-
-        if (command == "q"){
+        if (row == "q"){
             return EXIT_SUCCESS;
         }
         else {
-            unsigned int num = stoi(split_DIR_row(row)[1]);
+            unsigned int separator_index = row.find(' ');
+            command = row.substr(0,separator_index);
+            unsigned int num = stoi(row.substr(separator_index+1));
             if (check_moving_command(command) && num >=1 && num <=16) {
                 grid.move_in_direction(command, num);
             }
