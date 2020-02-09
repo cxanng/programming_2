@@ -31,22 +31,31 @@ public:
     // Prints the game grid
     void print();
     
-    // More methods
+    // This function initializes a random grid
     void initialize_random_board(int seed);
+
+    // This function takes an one-dimentional vector as the parameter
+    // and initializes the two-dimentional board base on it
     void initialize_manual_board(std::vector<unsigned int> numbers);
+
+    // This function is used to find the coodinates (row and column)
+    // of the element.
     std::vector<int> find_location(unsigned int number);
+
+    // This funtion handles the moving steps.
     void move_in_direction(std::string command, int position);
-    void swap_two_pieces(std::vector<int> location1,std::vector<int> location2);
+
+    // Check if player has won or not
     bool has_won();
+
+    // Check if the initial situation is solvable or not.
     bool is_solvable();
 private:
     // Shuffles the numbers vector by using seed as a seed value
     void my_shuffle(std::vector<unsigned int>& numbers, int seed);
-
+    // This funtions swaps two pieces whose coodinates are mentioned.
+    void swap_two_pieces(std::vector<int> location1,std::vector<int> location2);
     // Game grid for the 15 puzzle
     std::vector<std::vector<unsigned int>> grid_;
-
-    // More attributes/methods
 };
-
 #endif // BOARD_HH

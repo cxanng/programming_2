@@ -55,14 +55,18 @@ void Board::my_shuffle(std::vector<unsigned int> &numbers, int seed)
     }
 }
 
+
 void Board::initialize_random_board(int seed)
 {
+    // First creatae a shuffled one-dimentional vector which
+    // contains 16 elements
     std::vector<unsigned int> numbers;
     for (unsigned int i =0; i < EMPTY ; i++) {
         numbers.push_back(i+1);
     }
     my_shuffle(numbers, seed);
-
+    // Now push each 4-element vector in to a big vector to form a
+    //2-dimentional vector
     for (unsigned int i = 0; i < SIZE; i++) {
         std::vector <unsigned int> row;
         for (unsigned int j = 0; j < SIZE; j++) {
@@ -80,10 +84,11 @@ void Board::initialize_manual_board(std::vector<unsigned int> numbers) {
             row.push_back(numbers.at( SIZE * i + j));
         }
         this->grid_.push_back( row);
-
     }
 }
 
+// This function is used to find the coodinates (row and column)
+// of the element and return them in a vector [row, column]
 std::vector<int> Board::find_location(unsigned int number) {
     std::vector<int> location = {};
     for (unsigned int i = 0; i < SIZE; i++) {
@@ -96,6 +101,7 @@ std::vector<int> Board::find_location(unsigned int number) {
     }
     return location;
 }
+
 void Board::swap_two_pieces(std::vector<int> location1,std::vector<int> location2) {
     int temp = grid_.at(location1[0]).at(location1[1]);
     this->grid_.at(location1[0]).at(location1[1]) = grid_.at(location2[0]).at(location2[1]);
@@ -103,20 +109,26 @@ void Board::swap_two_pieces(std::vector<int> location1,std::vector<int> location
 }
 
 void Board::move_in_direction(std::string command, int position) {
+    // First, the coodinates of the empty sapce and the element mentioned in
+    // the moving command.
     std::vector <int> empty_location = find_location(16);
     std::vector <int> moving_location = find_location(position);
     if (command == "a") {
-        // Check if the empty space is on the left of the moving piece
-        if (empty_location[0] == moving_location[0] && empty_location[1] == moving_location[1] -1) {
+        // Check if the empty space is on the left of the moving piece. If
+        // it is, swap the two element. Else, print out the error notification.
+        if (empty_location[0] == moving_location[0] &&
+                empty_location[1] == moving_location[1] -1) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
             std::cout << "Impossible direction: " << command;
         }
     }
+    // Similarly for other commands.
     else if (command == "d") {
         // Check if the empty space is on the right of the moving piece
-        if (empty_location[0] == moving_location[0] && empty_location[1] == moving_location[1] +1) {
+        if (empty_location[0] == moving_location[0] &&
+                empty_location[1] == moving_location[1] +1) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
@@ -161,21 +173,22 @@ bool Board::is_solvable() {
         this->swap_two_pieces(find_location(16), piece_below_empty);
     }
     // Create an one-dimentional array to check solvability
+    // this step basicly just change the two-dimentional board
+    // to a array without the 16th element.
     unsigned int check_array[15];
     for (unsigned int i = 0; i < SIZE; i++) {
         for (unsigned int j = 0; j < SIZE ; j++) {
             if (grid_.at(i).at(j) != 16) {
                 check_array[SIZE * i + j] = grid_.at(i).at(j);
-
             }
         }
     }
+    // Count the inversion of the array.
     unsigned int count =0;
     for (unsigned int i = 0; i < 15; i++) {
         for (unsigned int j = i; j < 15; j++) {
             if (check_array[i] > check_array[j]) {
                 count += 1;
-
             }
         }
     }
