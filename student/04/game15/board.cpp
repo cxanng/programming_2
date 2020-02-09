@@ -143,7 +143,7 @@ void Board::move_in_direction(std::string command, int position) {
     }
 }
 
-bool Board::is_won() {
+bool Board::has_won() {
     for (unsigned int i = 0; i < SIZE; i++) {
         for (unsigned int j =0; j < SIZE; j++) {
             if (grid_.at(i).at(j) != SIZE * i + j +1) {
@@ -155,5 +155,33 @@ bool Board::is_won() {
 
 }
 
-
-
+bool Board::is_solvable() {
+    // Move the empty space to the lowest row
+    while (find_location(16)[0] < 3) {
+        std::vector<int> piece_below_empty ={find_location(16)[0], find_location(16)[1] +1};
+        this->swap_two_pieces(find_location(16), piece_below_empty);
+    }
+    // Create an one-dimentional array to check solvability
+    unsigned int check_array[15];
+    for (unsigned int i = 0; i < grid_.size(); i++) {
+        for (unsigned int j = 0; j < SIZE ; j++) {
+            if (grid_.at(i).at(j) != 16) {
+                check_array[SIZE * i + j] = grid_.at(i).at(j);
+            }
+        }
+    }
+    unsigned int count =0;
+    for (unsigned int i = 0; i < 15; i++) {
+        for (unsigned int j = i; j < 15; j++) {
+            if (check_array[i] > check_array[j]) {
+                count += 1;
+            }
+        }
+    }
+    if (count % 2 == 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}

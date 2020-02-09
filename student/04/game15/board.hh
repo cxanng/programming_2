@@ -37,7 +37,8 @@ public:
     std::vector<int> find_location(unsigned int number);
     void move_in_direction(std::string command, int position);
     void swap_two_pieces(std::vector<int> location1,std::vector<int> location2);
-    bool is_won();
+    bool has_won();
+    bool is_solvable();
 private:
     // Shuffles the numbers vector by using seed as a seed value
     void my_shuffle(std::vector<unsigned int>& numbers, int seed);

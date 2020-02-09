@@ -26,7 +26,6 @@
 #include <vector>
 #include <algorithm>
 
-
 const int EMPTY = 16;
 std::string check_initial_command(std::string& command) {
     // Check the first command to choose random initialization or not
@@ -45,7 +44,6 @@ bool check_moving_command(std::string command) {
     else {
         return true;
     }
-
 }
 
 bool check_number(std::vector<unsigned int> numbers){
@@ -107,8 +105,13 @@ int main()
 
     while (true) {
         std::string row;
+        if (not grid.is_solvable()) {
+            std::cout <<"Game is not solvable. What a pity." << std::endl;
+            return EXIT_SUCCESS;
+        }
         grid.print();
-        if (grid.is_won()) {
+        std::cout << "Game is solvable: Go ahead!" << std::endl;
+        if (grid.has_won()) {
             std::cout << "You won!" << std::endl;
             return EXIT_SUCCESS;
         }
@@ -133,7 +136,5 @@ int main()
             }
         }
    }
-
-
     return EXIT_SUCCESS;
 }
