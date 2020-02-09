@@ -88,7 +88,7 @@ int main()
         unsigned int temp;
         std::cout << "Enter the numbers 1-16 in a "
                      "desired order (16 means empty):" << std::endl;
-        for (unsigned int i = 0; i < 16; i++){
+        for (unsigned int i = 0; i < 16; ++i){
             std::cin >>temp;
             numbers.push_back(temp);
         }
@@ -102,15 +102,14 @@ int main()
             grid.initialize_manual_board(numbers);
         }
     }
-
+    if (not grid.is_solvable()) {
+        std::cout <<"Game is not solvable. What a pity." << std::endl;
+        return EXIT_SUCCESS;
+    }
+    std::cout << "Game is solvable: Go ahead!" << std::endl;
     while (true) {
         std::string row;
-        if (not grid.is_solvable()) {
-            std::cout <<"Game is not solvable. What a pity." << std::endl;
-            return EXIT_SUCCESS;
-        }
         grid.print();
-        std::cout << "Game is solvable: Go ahead!" << std::endl;
         if (grid.has_won()) {
             std::cout << "You won!" << std::endl;
             return EXIT_SUCCESS;

@@ -86,13 +86,16 @@ void Board::initialize_manual_board(std::vector<unsigned int> numbers) {
 
 std::vector<int> Board::find_location(unsigned int number) {
     std::vector<int> location = {};
-    for (unsigned int i = 0; i < grid_.size(); i++) {
+    for (unsigned int i = 0; i < SIZE; i++) {
         for (unsigned int j = 0; j < SIZE; j++) {
             if (grid_.at(i).at(j) == number) {
+                //std::cout<<i<<j<<"\n";
                 location.push_back(i);
                 location.push_back(j);
+
             }
         }
+
     }
     return location;
 }
@@ -152,7 +155,6 @@ bool Board::has_won() {
         }
     }
     return true;
-
 }
 
 bool Board::is_solvable() {
