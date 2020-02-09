@@ -27,6 +27,21 @@
 #include <algorithm>
 
 const int EMPTY = 16;
+std::vector<std::string> split_DIR_row(std::string row) {
+    std::vector<std::string> result = {};
+    std:: string element = "";
+    for (unsigned int i =0; i < row.length(); i++) {
+        if (row.at(i) != ' ') {
+            element += row.at(i);
+        }
+        else {
+            result.push_back(element);
+            result.push_back(row.substr(i+1));
+        }
+    }
+    return result;
+}
+
 std::string check_initial_command(std::string& command) {
     // Check the first command to choose random initialization or not
     while (command !="y" && command !="Y" && command != "n" && command != "N" ){
@@ -99,13 +114,17 @@ int main()
             return EXIT_FAILURE;
         }
         else {
+
             grid.initialize_manual_board(numbers);
+
         }
     }
+
     if (not grid.is_solvable()) {
         std::cout <<"Game is not solvable. What a pity." << std::endl;
         return EXIT_SUCCESS;
     }
+
     std::cout << "Game is solvable: Go ahead!" << std::endl;
     while (true) {
         std::string row;
@@ -117,13 +136,14 @@ int main()
 
         std::cout << "Dir (command, number): ";
         getline(std::cin, row);
-        command = row.front();
+
+        command = split_DIR_row(row)[0];
 
         if (command == "q"){
             return EXIT_SUCCESS;
         }
         else {
-            unsigned int num = stoi(row.substr(2));
+            unsigned int num = stoi(split_DIR_row(row)[1]);
             if (check_moving_command(command) && num >=1 && num <=16) {
                 grid.move_in_direction(command, num);
             }
