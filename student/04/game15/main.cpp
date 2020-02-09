@@ -94,6 +94,8 @@ int main()
             std::cin >>temp;
             numbers.push_back(temp);
         }
+        std::string newline;
+        getline(std::cin, newline);
         // If input is wrong, stop the program with return value EXIT_FAILURE.
         if(not check_number(numbers)) {
             return EXIT_FAILURE;
@@ -101,12 +103,16 @@ int main()
         else {
             grid.initialize_manual_board(numbers);
         }
-
     }
 
     while (true) {
         std::string row;
         grid.print();
+        if (grid.is_won()) {
+            std::cout << "You won!" << std::endl;
+            return EXIT_SUCCESS;
+        }
+
         std::cout << "Dir (command, number): ";
         getline(std::cin, row);
         command = row.front();

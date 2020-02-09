@@ -77,7 +77,7 @@ void Board::initialize_manual_board(std::vector<unsigned int> numbers) {
     for (unsigned int i = 0; i < SIZE; i++) {
         std::vector <unsigned int> row;
         for (unsigned int j = 0; j < SIZE; j++) {
-            row.push_back(numbers.at( SIZE * i +j));
+            row.push_back(numbers.at( SIZE * i + j));
         }
         this->grid_.push_back( row);
 
@@ -129,7 +129,7 @@ void Board::move_in_direction(std::string command, int position) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
-            std::cout << "Impossible direction: " << command;
+            std::cout << "Impossible direction: " << command << std::endl;
         }
     }
     else if (command == "s") {
@@ -138,9 +138,21 @@ void Board::move_in_direction(std::string command, int position) {
             this->swap_two_pieces(empty_location, moving_location);
         }
         else {
-            std::cout << "Impossible direction: " << command;
+            std::cout << "Impossible direction: " << command<< std::endl;
         }
     }
+}
+
+bool Board::is_won() {
+    for (unsigned int i = 0; i < SIZE; i++) {
+        for (unsigned int j =0; j < SIZE; j++) {
+            if (grid_.at(i).at(j) != SIZE * i + j +1) {
+                return false;
+            }
+        }
+    }
+    return true;
+
 }
 
 
