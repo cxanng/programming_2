@@ -7,7 +7,7 @@ int main()
     std::string infile_name, outfile_name;
     std::cout << "Input file: ";
     std::cin >> infile_name;
-    std::cout << "Out file: ";
+    std::cout << "Output file: ";
     std::cin >> outfile_name;
     std::ifstream instream(infile_name);
 //    instream.open(infile_name);
