@@ -9,23 +9,25 @@ int main()
     std::cin >> infile_name;
     std::cout << "Out file: ";
     std::cin >> outfile_name;
-    std::ifstream instream;
-    instream.open(infile_name);
-    std::ofstream outstream;
-    outstream.open(outfile_name);
-    if (not instream.fail()) {
+    std::ifstream instream(infile_name);
+//    instream.open(infile_name);
+    std::ofstream outstream(outfile_name);
+//    outstream.open(outfile_name);
+    if (not instream) {
+        std::cout << "Error! The file " << infile_name << " can not be opened." << std::endl;
+    }
+    else {
         unsigned int i = 1;
         while (not instream.eof()) {
             std::string line = "";
             std::getline(instream, line);
-            outstream << i << " " << line;
-            i++;
+            if (line != "") {
+                outstream << i << " " << line << "\n";
+                i++;
+            }
         }
-        instream.close();
-        outstream.close();
-    }
-    else {
-        std::cout << "Error! The file " << infile_name << " can not be opened." << std::endl;
+//        instream.close();
+//        outstream.close();
     }
     return 0;
 }
