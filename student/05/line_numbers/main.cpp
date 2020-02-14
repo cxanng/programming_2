@@ -12,6 +12,7 @@ int main()
     std::ifstream instream(infile_name);
     if (! instream) {
         std::cout << "Error! The file " << infile_name << " can not be opened." << std::endl;
+        return EXIT_FAILURE;
     }
     else {
         std::ofstream outstream(outfile_name);
