@@ -11,7 +11,7 @@ int main()
     std::cin >> outfile_name;
     std::ifstream instream(infile_name);
     if (! instream) {
-        std::cout << "Error! The file " << infile_name << " can not be opened." << std::endl;
+        std::cout << "Error! The file " << infile_name << " cannot be opened." << std::endl;
         return EXIT_FAILURE;
     }
     else {
