@@ -11,13 +11,13 @@ int main()
     std::cin >> outfile_name;
     std::ifstream instream;
     instream.open(infile_name);
-    if (instream.fail()) {
-        std::ofstream outstream;
-        outstream.open(outfile_name);
+    std::ofstream outstream;
+    outstream.open(outfile_name);
+    if (not instream.fail()) {
         unsigned int i = 1;
         while (not instream.eof()) {
             std::string line = "";
-            getline(instream, line);
+            std::getline(instream, line);
             outstream << i << " " << line;
             i++;
         }
