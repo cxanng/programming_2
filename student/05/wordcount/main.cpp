@@ -37,8 +37,9 @@ int main()
     int index = 1;
     for(auto line : lines) {
         for (auto word: word_list) {
-            std::string::size_type temp = line.find(" " + word.first + " ") ;
-            if (temp != std::string::npos) {
+            std::string::size_type temp1 = line.find(" " + word.first) ;
+            std::string::size_type temp2 = line.find(word.first + " ");
+            if (temp1 != std::string::npos || temp2 != std::string::npos) {
                 word_list[word.first].push_back(index);
             }
         }
