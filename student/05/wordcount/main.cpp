@@ -57,5 +57,5 @@ int main()
             std::cout << word_list[word.first].back() << std::endl;
         }
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
