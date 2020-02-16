@@ -35,9 +35,9 @@ int main()
             }
             else {
                 if (! is_in(word_list[word], index)){
-                        word_list[word].push_back(index);
-                        word = "";
+                        word_list[word].push_back(index);          
                 }
+                word = "";
             }
         }
         if (! is_in(word_list[word], index)) {
