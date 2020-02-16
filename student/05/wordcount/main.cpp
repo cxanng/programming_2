@@ -5,7 +5,14 @@
 #include <fstream>
 #include <vector>
 #include <array>
-
+bool is_in(std::vector<int> list, int num){
+    for (auto i : list) {
+        if (i == num) {
+            return true;
+        }
+    }
+    return false;
+}
 int main()
 {
     std::string infile_name;
@@ -19,7 +26,7 @@ int main()
     std::map< std::string , std::vector<int>> word_list;
     std::string line;
     std::vector<std::string> lines;
-
+    int index = 1;
     while (std::getline(file_object, line)) {
         std::string word;
         for (auto ch: line){
@@ -27,24 +34,29 @@ int main()
                 word += ch;
             }
             else {
-                word_list[word] = {};
-                word = "";
+                if (! is_in(word_list[word], index)){
+                        word_list[word].push_back(index);
+                        word = "";
+                }
             }
         }
-        word_list[word] = {};
-        lines.push_back(line);
-    }
-    int index = 1;
-    for(auto line : lines) {
-        for (auto word: word_list) {
-            std::string::size_type temp1 = line.find(" " + word.first) ;
-            std::string::size_type temp2 = line.find(word.first + " ");
-            if (temp1 != std::string::npos || temp2 != std::string::npos) {
-                word_list[word.first].push_back(index);
-            }
+        if (! is_in(word_list[word], index)) {
+            word_list[word].push_back(index);
         }
         ++index;
+//        lines.push_back(line);
     }
+//    int index = 1;
+//    for(auto line : lines) {
+//        for (auto word: word_list) {
+//            std::string::size_type temp1 = line.find(" " + word.first) ;
+//            std::string::size_type temp2 = line.find(word.first + " ");
+//            if (temp1 != std::string::npos || temp2 != std::string::npos) {
+//                word_list[word.first].push_back(index);
+//            }
+//        }
+//        ++index;
+//    }
 
     for (auto word : word_list) {
         std:: cout << word.first << " " << word_list[word.first].size() << ": " ;
