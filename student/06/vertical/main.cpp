@@ -5,6 +5,13 @@
 
 using namespace std;
 
+unsigned int power_10(unsigned int power)
+{
+    if (power == 0) {
+        return 1;
+    }
+    return 10* power_10(power-1);
+}
 void print_vertical(unsigned int num)
 {
     RECURSIVE_FUNC
@@ -13,6 +20,12 @@ void print_vertical(unsigned int num)
 
 
     // Add your implementation here
+    int i = 5;
+    while (num < power_10(i)) {
+            i--;
+     }
+     cout << (num - (num % power_10(i)))/power_10(i) << endl;
+     print_vertical(num % power_10(i) );
 }
 
 // Do not modify rest of the code, or the automated testing won't work.
