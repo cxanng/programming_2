@@ -20,12 +20,10 @@ void print_vertical(unsigned int num)
 
 
     // Add your implementation here
-    int i = 5;
-    while (num < power_10(i)) {
-            i--;
-     }
-     cout << (num - (num % power_10(i)))/power_10(i) << endl;
-     print_vertical(num % power_10(i) );
+    if (num / 10 > 0) {
+            print_vertical(num/10);
+    }
+    cout << num % 10<< endl;
 }
 
 // Do not modify rest of the code, or the automated testing won't work.
