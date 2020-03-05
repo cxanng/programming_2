@@ -103,6 +103,43 @@ void select_store(std::map<std::string, std::map <std::string, std::vector<Produ
     }
 }
 
+void find_cheapest(std::map<std::string, std::map <std::string, std::vector<Product>>> chain_system, std::string product) {
+    Product min_element = {product, 0};
+    std::vector<std::string> min_list;
+    bool available = false;
+    for ( auto chain_iter : chain_system) {
+        std::string chain = chain_iter.first;
+        for (auto location_iter : chain_system[chain]) {
+            std::string location = location_iter.first;
+            for (auto element : chain_system[chain][location]) {
+                if (element.product_name == min_element.product_name && element.price > 0) {
+                    if (!available) {
+                        available = true;
+                        min_element.price = element.price;
+                        min_list.push_back(chain + " " + location);
+                    }
+                    else if (element.price < min_element.price) {
+                        min_element.price = element.price;
+                        min_list = {chain + " " + location};
+                    }
+                    else if (element.price == min_element.price) {
+                        min_list.push_back(chain + " " + location);
+                    }
+                }
+            }
+        }
+    }
+    if (!available) {
+        std::cout << "The product is temporarily out of stock everywhere" << std::endl;
+    }
+    else {
+        std::cout << std::fixed <<std::setprecision(2) << min_element.price << " euros" << std::endl;
+        for (auto place : min_list) {
+            std::cout << place << std::endl;
+        }
+    }
+}
+
 int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>>> chain_system, std::vector<std::string> product_list) {
     while (true) {
        std::string line;
@@ -154,6 +191,13 @@ int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>
                 std::cout << "Error: error in command cheapest" << std::endl;
                 continue;
             }
+            std::string product = parts[1];
+            auto finding_iter = std::find(product_list.begin(), product_list.end(), product);
+            if (finding_iter == product_list.end()) {
+                std::cout << "The product is not part of product selection" << std::endl;
+                continue;
+            }
+            find_cheapest(chain_system, product);
         }
 
         else if (command == "products") {
