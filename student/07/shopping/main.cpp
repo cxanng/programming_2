@@ -74,6 +74,59 @@ std::vector<std::string> split(const std::string& s, const char delimiter, bool 
     return result;
 }
 
+int main_loop() {
+    while (true) {
+       std::string line;
+        std::string command;
+        std::cout << "> " ;
+        getline(std::cin, line);
+        std::vector<std::string> parts = split(line, ' ');
+        command = parts[0];
+
+        if (command == "quit") {
+            return EXIT_SUCCESS;
+        }
+
+        else if (command == "chains"){
+            if (parts.size() != 1) {
+                std::cout << "Error: error in command chains" << std::endl;
+                continue;
+            }
+        }
+
+        else if (command == "stores") {
+            if (parts.size() != 2) {
+                std::cout << "Error: error in command stores" << std::endl;
+                continue;
+            }
+        }
+
+        else if (command == "selection") {
+            if (parts.size() != 3) {
+                std::cout << "Error: error in command selection" << std::endl;
+                continue;
+            }
+        }
+
+        else if (command == "cheapest") {
+            if (parts.size() != 2) {
+                std::cout << "Error: error in command cheapest" << std::endl;
+                continue;
+            }
+        }
+
+        else if (command == "products") {
+            if (parts.size() != 1) {
+                std::cout << "Error: error in command products" << std::endl;
+                continue;
+            }
+        }
+
+        else {
+            std::cout << "Error: unknown command: " << command <<std::endl;
+        }
+    }
+}
 
 int main()
 {
@@ -106,5 +159,5 @@ int main()
         add_product(chain_system[line_content[0]][line_content[1]],item);
         checked_list(product_list, line_content[2]);
     }
-
+    return main_loop();
 }
