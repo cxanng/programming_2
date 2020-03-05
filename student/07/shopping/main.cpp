@@ -42,11 +42,12 @@ void checked_list(std::vector<std::string>& list, std::string item){
 }
 
 void add_product(std::vector<Product>& list, Product new_item) {
+    std::vector<Product>::iterator iter;
     bool check = false;
-    for (auto item : list) {
-        if(item.product_name == new_item.product_name) {
+    for (iter = list.begin(); iter != list.end(); iter++) {
+        if (iter->product_name == new_item.product_name) {
+            iter->price = new_item.price;
             check = true;
-            item.price = new_item.price;
         }
     }
     if (! check) {
@@ -170,6 +171,12 @@ int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>
                 continue;
             }
             std::string chain = parts[1];
+            auto iter_1 = chain_system.find(chain);
+            if (iter_1 == chain_system.end()) {
+                std::cout << "Error: unknown chain name" << std::endl;
+                continue;
+            }
+
             std::map<std::string, std::vector<Product>>::iterator iter;
             for ( iter = chain_system[chain].begin(); iter != chain_system[chain].end(); iter++) {
                 std::cout << iter->first << std::endl;
@@ -232,11 +239,11 @@ int main()
     std::vector <std::string> product_list;
     std::string line;
     while (getline(file_object, line)) {
-        if (split(line, ';').size() !=4 ) {
+        std::vector <std::string> line_content = split(line, ';');
+        if (line_content.size() !=4 || line_content[0] == "" || line_content[1] == "" || line_content[2] == "" || line_content[3] == "") {
             std::cout << "Error: the input file has an erroneous line" <<std::endl;
             return EXIT_FAILURE;
         }
-        std::vector <std::string> line_content = split(line, ';');
         Product item;
 
         if (line_content[3] == "out-of-stock") {
