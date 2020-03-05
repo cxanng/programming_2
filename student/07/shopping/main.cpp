@@ -74,6 +74,35 @@ std::vector<std::string> split(const std::string& s, const char delimiter, bool 
     return result;
 }
 
+bool compare_products(Product pro1, Product pro2) {
+    return pro1.product_name < pro2.product_name;
+}
+
+void select_store(std::map<std::string, std::map <std::string, std::vector<Product>>> chain_system, std::string chain, std::string location) {
+    auto finding_iter_1 = chain_system.find(chain);
+    if (finding_iter_1 == chain_system.end()) {
+        std::cout << "Error: unknown chain name" << std::endl;
+    }
+    else {
+        auto finding_iter_2 = chain_system[chain].find(location);
+        if (finding_iter_2 == chain_system[chain].end()) {
+            std::cout << "Error: unknown store" << std::endl;
+        }
+        else {
+            std::vector<Product>::iterator iter;
+            std::sort(chain_system[chain][location].begin(), chain_system[chain][location].end(), compare_products);
+            for ( iter = chain_system[chain][location].begin(); iter != chain_system[chain][location].end(); iter++) {
+                if (iter->price == -1) {
+                    std::cout << iter->product_name << " " << "out of stock" << std::endl;
+                }
+                else {
+                    std::cout << iter->product_name << " " << std::fixed << std::setprecision(2) << iter->price << std::endl;
+                }
+            }
+        }
+    }
+}
+
 int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>>> chain_system, std::vector<std::string> product_list) {
     while (true) {
        std::string line;
@@ -115,6 +144,9 @@ int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>
                 std::cout << "Error: error in command selection" << std::endl;
                 continue;
             }
+            std::string chain = parts[1];
+            std::string location = parts[2];
+            select_store(chain_system, chain, location);
         }
 
         else if (command == "cheapest") {
