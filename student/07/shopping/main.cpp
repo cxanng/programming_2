@@ -74,7 +74,7 @@ std::vector<std::string> split(const std::string& s, const char delimiter, bool 
     return result;
 }
 
-int main_loop() {
+int main_loop(std::map <std::string, std::map <std::string, std::vector<Product>>> chain_system, std::vector<std::string> product_list) {
     while (true) {
        std::string line;
         std::string command;
@@ -92,12 +92,21 @@ int main_loop() {
                 std::cout << "Error: error in command chains" << std::endl;
                 continue;
             }
+            std::map<std::string, std::map <std::string, std::vector<Product>>>::iterator iter;
+            for (iter = chain_system.begin();  iter != chain_system.end(); iter ++) {
+                std::cout << iter->first << std::endl;
+            }
         }
 
         else if (command == "stores") {
             if (parts.size() != 2) {
                 std::cout << "Error: error in command stores" << std::endl;
                 continue;
+            }
+            std::string chain = parts[1];
+            std::map<std::string, std::vector<Product>>::iterator iter;
+            for ( iter = chain_system[chain].begin(); iter != chain_system[chain].end(); iter++) {
+                std::cout << iter->first << std::endl;
             }
         }
 
@@ -119,6 +128,10 @@ int main_loop() {
             if (parts.size() != 1) {
                 std::cout << "Error: error in command products" << std::endl;
                 continue;
+            }
+            std::sort(product_list.begin(), product_list.end());
+            for (auto product : product_list) {
+                std::cout << product << std::endl;
             }
         }
 
@@ -159,5 +172,5 @@ int main()
         add_product(chain_system[line_content[0]][line_content[1]],item);
         checked_list(product_list, line_content[2]);
     }
-    return main_loop();
+    return main_loop(chain_system, product_list);
 }
