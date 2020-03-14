@@ -80,7 +80,7 @@ int main()
         return EXIT_FAILURE;
     }
     else {
-        std::cout << number_list[0] << std::endl;
+        std::cout <<  " Correct: " << number_list[0] << " is the result" << std::endl;
         return EXIT_SUCCESS;
     }
 }
