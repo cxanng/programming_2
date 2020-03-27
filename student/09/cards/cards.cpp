@@ -55,9 +55,12 @@ bool Cards::bottom_to_top() {
         new_bottom = temp;
         temp = temp->next;
     }
-    temp->next = top_;
-    top_ = temp;
-    new_bottom->next = nullptr;
+    if (top_->next != nullptr) {
+        temp->next = top_;
+        top_ = temp;
+        new_bottom->next = nullptr;
+    }
+
     return true;
 }
 
@@ -67,13 +70,15 @@ bool Cards::top_to_bottom() {
     }
     Card_data* bottom_ = top_;
     Card_data* temp = top_;
-    while (bottom_->next != nullptr) {
+    while (bottom_ != nullptr) {
         bottom_ = bottom_->next;
     }
+    if (top_->next != nullptr) {
+        top_ = top_->next;
+        bottom_= temp;
+        temp->next = nullptr;
+    }
 
-    top_ = top_->next;
-    bottom_->next = temp;
-    temp->next = nullptr;
     return true;
 }
 
