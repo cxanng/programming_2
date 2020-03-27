@@ -34,7 +34,7 @@ void Cards::print_from_top_to_bottom(std::ostream &s) {
     }
 }
 
-bool Cards::remove(int &id) {
+bool Cards::remove(int& id) {
     if (!top_) {
         return false;
     }
@@ -70,12 +70,12 @@ bool Cards::top_to_bottom() {
     }
     Card_data* bottom_ = top_;
     Card_data* temp = top_;
-    while (bottom_ != nullptr) {
+    while (bottom_->next != nullptr) {
         bottom_ = bottom_->next;
     }
     if (top_->next != nullptr) {
         top_ = top_->next;
-        bottom_= temp;
+        bottom_->next= temp;
         temp->next = nullptr;
     }
 
