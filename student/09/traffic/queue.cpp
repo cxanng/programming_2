@@ -3,8 +3,7 @@
 
 // Implement the member functions of Queue here
 const unsigned int VEHICLES_PER_GREEN_PERIOD = 3;
-Queue::Queue(unsigned int cycle): cycle_(cycle), first_(nullptr), last_(nullptr),
-                                                                          is_green_(false){
+Queue::Queue(unsigned int cycle): cycle_(cycle){
 }
 Queue::~Queue() {
     while( first_ != nullptr) {
