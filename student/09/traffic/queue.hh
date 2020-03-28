@@ -37,7 +37,9 @@ private:
         string reg_num;
         Vehicle* next;
     };
-
+    // Function dequeue
+    void dequeue();
+    
     // Pointer to the first vehicle in the traffic light queue
     Vehicle* first_ = nullptr;
 
@@ -49,7 +51,7 @@ private:
 
     // The number of vehicles that can pass the traffic lights during
     // the same green period
-    unsigned int cycle_;
+    unsigned int cycle_ ;
 
     // You can define more private features here
 
