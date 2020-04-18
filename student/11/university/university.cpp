@@ -139,7 +139,26 @@ void University::sign_up_on_course(Params params)
 
 void University::complete_course(Params params)
 {
+    // Check if the parameters are correct
+        if (courses_.find(params.at(0)) == courses_.end()  ){
+            std::cout << CANT_FIND << params.at(0) << std::endl;
+        }
+        Course *course_to_complete = courses_.at(params.at(0));
+        if (!course_to_complete->has_instance(params.at(1))) {
+            std::cout << CANT_FIND << params.at(1) << std::endl;
+            return;
+        }
+        std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(2)));
+        if ( iter == accounts_.end() ){
+            std::cout << CANT_FIND << params.at(2) << std::endl;
+            return;
+        }
 
+        // Check if the student have signed up for the course
+        Instance *complete_ins = course_to_complete->get_instance(params.at(1));
+        if (!iter->second->complete_course(complete_ins)) {
+            return;
+        }
 }
 
 void University::print_signups(Params params)
