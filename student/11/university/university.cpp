@@ -100,7 +100,7 @@ void University::add_instance(Params params)
             return;
         }
     if (courses_.at(params.at(0))->has_instance(params.at(1))) {
-        std::cout << ALREADY_EXISTS << std::endl;
+        std::cout << INSTANCE_EXISTS << std::endl;
         return;
     }
 
@@ -146,6 +146,7 @@ void University::complete_course(Params params)
     // Check if the parameters are correct
         if (courses_.find(params.at(0)) == courses_.end()  ){
             std::cout << CANT_FIND << params.at(0) << std::endl;
+            return;
         }
         Course *course_to_complete = courses_.at(params.at(0));
         if (!course_to_complete->has_instance(params.at(1))) {
