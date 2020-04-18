@@ -95,6 +95,13 @@ void University::add_staff_to_course(Params params)
 
 void University::add_instance(Params params)
 {
+    if ( courses_.find(params.at(0)) == courses_.end() ){
+            std::cout << CANT_FIND << params.at(0) << std::endl;
+            return;
+        }
+
+        Instance *new_ins = new Instance(params.at(1), courses_.at(params.at(0)), utils::today);
+        courses_.at(params.at(0))->new_instance(new_ins);
 
 }
 
