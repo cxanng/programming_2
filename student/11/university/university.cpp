@@ -168,7 +168,24 @@ void University::print_signups(Params params)
 
 void University::print_study_state(Params params)
 {
+    // Check if the student number exists
+    std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(0)));
+    if (iter == accounts_.end()) {
+        std::cout << CANT_FIND << params.at(0) << std::endl;
+        return;
+    }
+    Account student = *iter->second;
+    std::cout << "Current:" << std::endl;
+    for (Instance* ins : student.get_currents()) {
+        ins->get_course()->print_info(false);
+        std::cout << " " + ins->get_name() << std::endl;
+    }
 
+    std::cout << "Completed: " << std::endl;
+    for (auto course : student.get_completed()) {
+        course->print_info(true);
+    }
+    std::cout << "Total credits: " << student.get_credit() << std::endl;
 }
 
 void University::print_completed(Params params)
