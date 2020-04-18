@@ -99,9 +99,13 @@ void University::add_instance(Params params)
             std::cout << CANT_FIND << params.at(0) << std::endl;
             return;
         }
+    if (courses_.at(params.at(0))->has_instance(params.at(1))) {
+        std::cout << ALREADY_EXISTS << std::endl;
+        return;
+    }
 
-        Instance *new_ins = new Instance(params.at(1), courses_.at(params.at(0)), utils::today);
-        courses_.at(params.at(0))->new_instance(new_ins);
+    Instance *new_ins = new Instance(params.at(1), courses_.at(params.at(0)), utils::today);
+    courses_.at(params.at(0))->new_instance(new_ins);
 
 }
 
