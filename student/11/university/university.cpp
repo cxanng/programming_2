@@ -107,6 +107,33 @@ void University::add_instance(Params params)
 
 void University::sign_up_on_course(Params params)
 {
+    // Check if the parameters are correct.
+    if (courses_.find(params.at(0)) == courses_.end()  ){
+        std::cout << CANT_FIND << params.at(0) << std::endl;
+        return;
+    }
+    Course *course_to_sign_up = courses_.at(params.at(0));
+    if (!course_to_sign_up->has_instance(params.at(1))) {
+        std::cout << CANT_FIND << params.at(1) << std::endl;
+        return;
+    }
+    std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(2)));
+    if ( iter == accounts_.end() ){
+        std::cout << CANT_FIND << params.at(2) << std::endl;
+        return;
+    }
+    // Check if the student have already signed up for the instance
+    if (!iter->second->add_instance(course_to_sign_up->get_instance(params.at(1)))) {
+        return;
+    }
+
+    // Check if the instance is already started
+    Date start = course_to_sign_up->get_instance(params.at(1))->get_start_date();
+    if (start.operator<(utils::today)) {
+        std::cout << "Error: Can't sign up on instance after the starting date." << std::endl;
+        return;
+    }
+    course_to_sign_up->get_instance(params.at(1))->add_student(iter->second);
 
 }
 
