@@ -163,6 +163,11 @@ void University::complete_course(Params params)
 
 void University::print_signups(Params params)
 {
+    if (courses_.find(params.at(0)) == courses_.end() ){
+        std::cout << CANT_FIND << params.at(0) << std::endl;
+        return;
+    }
+    courses_.find(params.at(0))->second->print_signups();
 
 }
 
@@ -190,7 +195,15 @@ void University::print_study_state(Params params)
 
 void University::print_completed(Params params)
 {
-
+    std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(0)));
+        if (iter == accounts_.end()) {
+            std::cout << CANT_FIND << params.at(0) << std::endl;
+            return;
+        }
+        for (auto *course : iter->second->get_completed()) {
+            course->print_info(true);
+        }
+        std::cout << "Total credits: " << iter->second->get_credit() << std::endl;
 }
 
 void University::set_date(Params params)
