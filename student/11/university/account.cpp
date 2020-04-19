@@ -1,3 +1,18 @@
+/* Class: Account
+  * ----------
+  * Defines a student or a staff account in the university system.
+  *
+  * Some more features such as current_ and completed_ are added
+  *
+  * Student's information:
+  *
+  * Name: The Anh Nguyen
+  * Student number: 292126
+  * User ID: cxanng
+  * Email: anh.t.nguyen@tuni.fi
+  *
+  * */
+
 #include "account.hh"
 #include "utils.hh"
 #include "instance.hh"

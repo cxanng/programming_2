@@ -1,3 +1,21 @@
+/* Class: University
+ * ----------
+ * TIE-02201/TIE-02207 SPRING 2020
+ * ----------
+ *
+ * This is the main class
+ * Functions such as add_instance, sign_up_on_course, complete_course,
+ * print_signups, print_study_state and print_complete are added.
+ *
+ * Student's information:
+ *
+ * Name: The Anh Nguyen
+ * Student number: 292126
+ * User ID: cxanng
+ * Email: anh.t.nguyen@tuni.fi
+ *
+ * */
+
 #include "university.hh"
 
 University::University():running_number_(111111)
@@ -93,8 +111,10 @@ void University::add_staff_to_course(Params params)
     courses_.at(params.at(0))->add_staff(accounts_.at(std::stoi(params.at(1))));
 }
 
+// This function adds a new instance to course
 void University::add_instance(Params params)
 {
+    // check if the parameters is typed correctly
     if ( courses_.find(params.at(0)) == courses_.end() ){
             std::cout << CANT_FIND << params.at(0) << std::endl;
             return;
@@ -104,11 +124,13 @@ void University::add_instance(Params params)
         return;
     }
 
-    Instance *new_ins = new Instance(params.at(1), courses_.at(params.at(0)), utils::today);
+    Instance *new_ins = new Instance(params.at(1),
+                                     courses_.at(params.at(0)), utils::today);
     courses_.at(params.at(0))->new_instance(new_ins);
 
 }
 
+// Adds an account to the instance in course which are typed in
 void University::sign_up_on_course(Params params)
 {
     // Check if the parameters are correct.
@@ -141,31 +163,33 @@ void University::sign_up_on_course(Params params)
 
 }
 
+// Completes the course
 void University::complete_course(Params params)
 {
     // Check if the parameters are correct
-        if (courses_.find(params.at(0)) == courses_.end()  ){
-            std::cout << CANT_FIND << params.at(0) << std::endl;
-            return;
-        }
-        Course *course_to_complete = courses_.at(params.at(0));
-        if (!course_to_complete->has_instance(params.at(1))) {
-            std::cout << CANT_FIND << params.at(1) << std::endl;
-            return;
-        }
-        std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(2)));
-        if ( iter == accounts_.end() ){
-            std::cout << CANT_FIND << params.at(2) << std::endl;
-            return;
-        }
+    if (courses_.find(params.at(0)) == courses_.end()  ){
+        std::cout << CANT_FIND << params.at(0) << std::endl;
+        return;
+    }
+    Course *course_to_complete = courses_.at(params.at(0));
+    if (!course_to_complete->has_instance(params.at(1))) {
+        std::cout << CANT_FIND << params.at(1) << std::endl;
+        return;
+    }
+    std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(2)));
+    if ( iter == accounts_.end() ){
+        std::cout << CANT_FIND << params.at(2) << std::endl;
+        return;
+    }
 
-        // Check if the student have signed up for the course
-        Instance *complete_ins = course_to_complete->get_instance(params.at(1));
-        if (!iter->second->complete_course(complete_ins)) {
-            return;
-        }
+    // Check if the student have signed up for the course
+    Instance *complete_ins = course_to_complete->get_instance(params.at(1));
+    if (!iter->second->complete_course(complete_ins)) {
+        return;
+    }
 }
 
+// Prints all signups of the course
 void University::print_signups(Params params)
 {
     if (courses_.find(params.at(0)) == courses_.end() ){
@@ -176,6 +200,7 @@ void University::print_signups(Params params)
 
 }
 
+// Prints study state of the student
 void University::print_study_state(Params params)
 {
     // Check if the student number exists
@@ -198,6 +223,7 @@ void University::print_study_state(Params params)
     std::cout << "Total credits: " << student.get_credit() << std::endl;
 }
 
+// Prints all completed courses and number of credits earned
 void University::print_completed(Params params)
 {
     std::map<int, Account*>::iterator iter = accounts_.find(std::stoi(params.at(0)));

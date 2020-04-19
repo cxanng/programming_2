@@ -1,3 +1,18 @@
+/* Class: Instance
+ * ----------
+ * TIE-02201/TIE-02207 SPRING 2020
+ * ----------
+ * Class that represent a single instance.
+ *
+ * Student's information:
+ *
+ * Name: The Anh Nguyen
+ * Student number: 292126
+ * User ID: cxanng
+ * Email: anh.t.nguyen@tuni.fi
+ *
+ * */
+
 #include "instance.hh"
 #include "course.hh"
 #include "account.hh"
