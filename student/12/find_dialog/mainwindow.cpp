@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     connect(ui->closePushButton, &QPushButton::clicked, this, &MainWindow::closed);
     connect(ui->closePushButton, &QPushButton::clicked, this, &MainWindow::find);
+    connect(ui->matchCheckBox, &QCheckBox::stateChanged, this, &MainWindow::find);
 
 }
 
