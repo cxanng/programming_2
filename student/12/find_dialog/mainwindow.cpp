@@ -12,12 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    if (ui->findPushButton->isFlat()) {
-        on_fileLineEdit_editingFinished();
-        on_keyLineEdit_editingFinished();
-    }
-    connect(ui->closePushButton, &QPushButton::clicked, this, &MainWindow::terminate);
-
+    connect(ui->closePushButton, &QPushButton::clicked, this, &MainWindow::closed);
+    connect(ui->closePushButton, &QPushButton::clicked, this, &MainWindow::find);
 
 }
 
@@ -38,8 +34,6 @@ void MainWindow::on_fileLineEdit_editingFinished()
     }
 }
 
-
-
 void MainWindow::on_keyLineEdit_editingFinished()
 {
     std::string file_name = ui->fileLineEdit->text().toStdString();
@@ -52,12 +46,11 @@ void MainWindow::on_keyLineEdit_editingFinished()
     if (find_what == "") {
         return;
     }
-    bool check = ui->matchCheckBox->isChecked();
     ui->textBrowser->reload();
     std::string line = "";
     bool found = false;
     while( getline(file_object, line)) {
-        if (!check) {
+        if (!ui->matchCheckBox->isChecked()) {
             line = convert(line);
             find_what = convert(find_what);
         }
@@ -92,7 +85,12 @@ bool MainWindow::find_text(std::string find_from, std::string find_what) {
     }
 }
 
-void MainWindow::terminate() {
+void MainWindow::closed() {
     this->close();
 }
 
+void MainWindow::find() {
+    ui->textBrowser->reload();
+    on_fileLineEdit_editingFinished();
+    on_keyLineEdit_editingFinished();
+}

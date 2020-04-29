@@ -25,6 +25,7 @@ private:
     Ui::MainWindow *ui;
     std::string convert(std::string str);
     bool find_text(std::string find_from, std::string find_what);
-    void terminate();
+    void closed();
+    void find();
 };
 #endif // MAINWINDOW_H
