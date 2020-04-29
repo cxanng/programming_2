@@ -57,7 +57,7 @@ void MainWindow::on_keyLineEdit_editingFinished()
     std::string line = "";
     bool found = false;
     while( getline(file_object, line)) {
-        if (check) {
+        if (!check) {
             line = convert(line);
             find_what = convert(find_what);
         }
