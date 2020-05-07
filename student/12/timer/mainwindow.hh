@@ -23,10 +23,17 @@ public:
 
 private slots:
     // Add your slots here
+    void running();
+
 
 private:
     Ui::MainWindow *ui;
+    int sec = 0;
+    int min = 0;
     // Add other necessary members here
+    void start_timer();
+    void stop_timer();
+    void reset_timer();
 };
 
 #endif // MAINWINDOW_HH
