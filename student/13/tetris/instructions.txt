@@ -1,0 +1,14 @@
+The game have been implemented with most functions needed
+
+- All seven types of tetromino are included and they are all can be rotate by pressing R
+- Tetrominos are movable horizontally by pressing A and D
+- Tetrominos are stopped when hitting the bottom or on top of other tetrominos
+- There is a label to inform user when the game is over
+- If the current tetromino stopped and the new tetromino has not been created,
+    it can still be moved horizontally or in some situations roteted
+- Full rows are removed
+- The game will add points everytime a row is removed, also the tetrominos will
+    drop faster as the points increase (max = 300)
+- Players can restart the game when the game is over or paused
+- The next tetromino is displayed
+- The current tetromino can be dropped as much as possible by pressing S

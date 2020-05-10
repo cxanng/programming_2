@@ -57,6 +57,8 @@ public:
     Tetromino();
 
     // Sets initial coordinates to each block of the tetromino
+    // This function takes the tetromino type and coordinate of a core
+    // block.
     void initialize_tetromino(int tetromino_kind, int x, int y);
 
     // Changes the coordinates of each block of the tetromino as the

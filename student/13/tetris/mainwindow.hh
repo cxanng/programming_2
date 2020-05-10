@@ -24,23 +24,45 @@ public:
     ~MainWindow();
 
 protected:
-
+    //  Receive the signal from the keyboard to control the tetrominos
+    // This includes four commands:
+    // A for moving left
+    // D for moving right
+    // S for immediate drop
+    // R for rotating the tetromino clockwise
     void keyPressEvent(QKeyEvent* event);
 
 private slots:
+    // Controls the game play
     void restart();
     void pause();
     void resume();
     void quit();
     void game_start();
 
+    // Initializes a gamce grid to save data from tetrominos
     void initialize_game_grid();
+
+    // Draws the whole game grid
     void render_current();
+
+    // Creates a new piece knowing the type of it
     void create_new_piece(int next_piece_type);
+
+    // Controls the dropping of a tetromino
     void dropping_current();
+
+    // Change the color of the tetromino, mostly used for detecting
+    // if the tetromino is movable
     void redraw_current_piece(int type);
+
+    // Determines if the game is over or not
     bool game_over();
+
+    // Deletes a full rows
     void delete_completed_row();
+
+    // Drops the tetromino as much as possible
     void quick_dropping();
 
 private:
@@ -55,9 +77,6 @@ private:
     Tetromino next_piece_;
     int current_score;
     bool is_started_;
-
-
-
 
     // For randomly selecting the next dropping tetromino
     std::default_random_engine randomEng;

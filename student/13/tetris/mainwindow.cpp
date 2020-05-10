@@ -44,23 +44,35 @@ MainWindow::MainWindow(QWidget *parent) :
     int seed = time(0); // You can change seed value for testing purposes
     randomEng.seed(seed);
     distr = std::uniform_int_distribution<int>(0, NUMBER_OF_TETROMINOS - 1);
-    distr(randomEng); // Wiping out the first random number (which is almost always 0)
+    distr(randomEng);
+    // Wiping out the first random number (which is almost always 0)
     // After the above settings, you can use randomEng to draw the next falling
     // tetromino by calling: distr(randomEng) in a suitable method.
 
     // Add more initial settings and connect calls, when needed.
     timer_ = new QTimer();
     connect(timer_, &QTimer::timeout, this, &MainWindow::dropping_current);
-    connect(ui->startPushButton, &QPushButton::clicked, this, &MainWindow::game_start);
-    connect(ui->pausePushButton, &QPushButton::clicked, this, &MainWindow::pause);
-    connect(ui->resumePushButton, &QPushButton::clicked, this, &MainWindow::resume);
-    connect(ui->restartPushButton, &QPushButton::clicked, this, &MainWindow::restart);
+
+    connect(ui->startPushButton, &QPushButton::clicked, this,
+            &MainWindow::game_start);
+
+    connect(ui->pausePushButton, &QPushButton::clicked, this,
+            &MainWindow::pause);
+
+    connect(ui->resumePushButton, &QPushButton::clicked, this,
+            &MainWindow::resume);
+
+    connect(ui->restartPushButton, &QPushButton::clicked, this,
+            &MainWindow::restart);
+
     connect(ui->quitPushButton, &QPushButton::clicked, this, &MainWindow::quit);
 
     ui->displayNextGraphicsView->setScene(display_next);
     MainWindow::initialize_game_grid();
     next_piece_.initialize_tetromino(int(distr(randomEng)), COLUMNS/2 -1, 0);
     MainWindow::create_new_piece(int(distr(randomEng)));
+
+    ui->commandLabel->setText(" A: move left \n D: move rigth \n S: drop \n R: rotate");
 }
 
 MainWindow::~MainWindow()
@@ -123,7 +135,7 @@ void MainWindow::create_new_piece(int next_piece_type) {
     next_piece_.initialize_tetromino(next_piece_type, 5, 0);
     for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
         game_grid_[current_piece_.get_coordinate(i).second]
-                  [current_piece_.get_coordinate(i).first] = current_piece_.get_type();
+            [current_piece_.get_coordinate(i).first] = current_piece_.get_type();
     }
 }
 
@@ -187,6 +199,7 @@ void MainWindow::delete_completed_row() {
                 complete = false;
             }
         }
+
         if (complete) {
             completed_rows.push_back(i);
             current_score += 10;
@@ -195,6 +208,7 @@ void MainWindow::delete_completed_row() {
             }
         }
     }
+
     for (auto row : completed_rows) {
         for (int i = 0; i < row; i++) {
             game_grid_[row-i] = game_grid_[row-i-1];
