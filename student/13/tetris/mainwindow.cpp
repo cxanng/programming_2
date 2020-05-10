@@ -1,5 +1,9 @@
 #include "mainwindow.hh"
 #include "ui_mainwindow.h"
+#include <QList>
+#include <QKeyEvent>
+#include <QGraphicsRectItem>
+#include <QWidget>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -14,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     // We need a graphics scene in which to draw rectangles.
     scene_ = new QGraphicsScene(this);
+    display_next = new QGraphicsScene(this);
 
     // The graphicsView object is placed on the window
     // at the following coordinates, but if you want
@@ -44,8 +49,14 @@ MainWindow::MainWindow(QWidget *parent) :
     // tetromino by calling: distr(randomEng) in a suitable method.
 
     // Add more initial settings and connect calls, when needed.
-
     timer_ = new QTimer();
+    connect(timer_, &QTimer::timeout, this, &MainWindow::dropping_current);
+    connect(ui->startPushButton, &QPushButton::clicked, this, &MainWindow::game_start);
+    connect(ui->pausePushButton, &QPushButton::clicked, this, &MainWindow::pause);
+    connect(ui->resumePushButton, &QPushButton::clicked, this, &MainWindow::resume);
+    connect(ui->restartPushButton, &QPushButton::clicked, this, &MainWindow::restart);
+    connect(ui->quitPushButton, &QPushButton::clicked, this, &MainWindow::quit);
+
     ui->displayNextGraphicsView->setScene(display_next);
     MainWindow::initialize_game_grid();
     next_piece_.initialize_tetromino(int(distr(randomEng)), COLUMNS/2 -1, 0);
@@ -95,6 +106,15 @@ void MainWindow::render_current() {
                                         blackPen, color[game_grid_[i][j]]);
             }
         }
+    }
+
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        int x = next_piece_.get_coordinate(i).first - 3;
+        int y = next_piece_.get_coordinate(i).second + 1;
+        display_next->addRect(x * SQUARE_SIDE, y * SQUARE_SIDE,
+                                      SQUARE_SIDE, SQUARE_SIDE, blackPen,
+                                      color[next_piece_.get_type()]);
+
     }
 }
 
@@ -205,5 +225,118 @@ void MainWindow::quick_dropping() {
             MainWindow::redraw_current_piece(current_piece_.get_type());
             break;
         }
+    }
+}
+
+void MainWindow::game_start() {
+    MainWindow::initialize_game_grid();
+    if (!is_started_) {
+        int time_interval = 500;
+        timer_->setSingleShot(false);
+        timer_->start(time_interval);
+        is_started_ = true;
+        ui->startPushButton->setDisabled(true);
+        ui->resumePushButton->setDisabled(true);
+    }
+}
+
+void MainWindow::pause() {
+    timer_->stop();
+    is_started_ = false;
+    ui->resumePushButton->setEnabled(true);
+    ui->pausePushButton->setDisabled(true);
+}
+
+void MainWindow::resume() {
+    timer_->start();
+    ui->resumePushButton->setDisabled(true);
+    ui->pausePushButton->setEnabled(true);
+}
+
+void MainWindow::restart() {
+    if (!is_started_) {
+        scene_->clear();
+        MainWindow::create_new_piece(int(distr(randomEng)));
+        MainWindow::game_start();
+        ui->pausePushButton->setEnabled(true);
+    }
+}
+
+void MainWindow::quit() {
+    this->close();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    if (!is_started_) {
+        return;
+    }
+
+    bool able_to_move = true;
+
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        game_grid_[current_piece_.get_coordinate(i).second]
+                  [current_piece_.get_coordinate(i).first] = EMPTY;
+    }
+
+    switch (event->key()) {
+       case Qt::Key_A: {
+           for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+               if (current_piece_.get_coordinate(i).first == 0
+                       || game_grid_[current_piece_.get_coordinate(i).second]
+                       [current_piece_.get_coordinate(i).first - 1] != EMPTY) {
+                   able_to_move = false;
+               }
+           }
+           if (able_to_move) {
+               current_piece_.moving_horizontally(true);
+               MainWindow::redraw_current_piece(current_piece_.get_type());
+           }
+           break;
+       }
+       case Qt::Key_D: {
+           for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+               if (current_piece_.get_coordinate(i).first == COLUMNS -1
+                       || game_grid_[current_piece_.get_coordinate(i).second]
+                       [current_piece_.get_coordinate(i).first + 1] != EMPTY) {
+                   able_to_move = false;
+               }
+           }
+           if (able_to_move) {
+               current_piece_.moving_horizontally(false);
+               MainWindow::redraw_current_piece(current_piece_.get_type());
+           }
+           break;
+        }
+
+        case Qt::Key_S : {
+            MainWindow::quick_dropping();
+            break;
+        }
+
+        case Qt::Key_R: {
+            Tetromino test_block;
+            test_block.set_tetromino(current_piece_);
+            bool able_to_rotate = true;
+            MainWindow::redraw_current_piece(EMPTY);
+            test_block.rotating();
+
+            for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+                if (test_block.get_coordinate(i).second <0
+                    ||test_block.get_coordinate(i).second > ROWS -1
+                    ||test_block.get_coordinate(i).first < 0
+                    || test_block.get_coordinate(i).first > COLUMNS -1
+                    || game_grid_[test_block.get_coordinate(i).second]
+                        [test_block.get_coordinate(i).first] != EMPTY) {
+                    able_to_rotate = false;
+                }
+            }
+            if (able_to_rotate) {
+                current_piece_.rotating();
+                MainWindow::redraw_current_piece(current_piece_.get_type());
+                }
+            break;
+        }
+    MainWindow::render_current();
+
     }
 }

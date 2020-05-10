@@ -4,10 +4,12 @@
 #include "tetromino.hh"
 #include <QMainWindow>
 #include <QGraphicsScene>
+#include <QDebug>
 #include <random>
 #include <QTimer>
 #include <QGraphicsRectItem>
 #include <vector>
+
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +23,17 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+
+    void keyPressEvent(QKeyEvent* event);
+
 private slots:
+    void restart();
+    void pause();
+    void resume();
+    void quit();
+    void game_start();
+
     void initialize_game_grid();
     void render_current();
     void create_new_piece(int next_piece_type);
@@ -30,6 +42,7 @@ private slots:
     bool game_over();
     void delete_completed_row();
     void quick_dropping();
+
 private:
     Ui::MainWindow *ui;
     // Graphics scenes to display the game play and the next piece
