@@ -106,3 +106,82 @@ void MainWindow::create_new_piece(int next_piece_type) {
                   [current_piece_.get_coordinate(i).first] = current_piece_.get_type();
     }
 }
+
+void MainWindow::dropping_current() {
+    bool able_to_move = true;
+    MainWindow::redraw_current_piece(EMPTY);
+
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        if (current_piece_.get_coordinate(i).second == ROWS - 1
+                || game_grid_[current_piece_.get_coordinate(i).second + 1]
+                [current_piece_.get_coordinate(i).first] != EMPTY) {
+            able_to_move = false;
+        }
+    }
+
+    if (able_to_move) {
+        current_piece_.dropping();
+        MainWindow::redraw_current_piece(current_piece_.get_type());
+    }
+    else {
+        // renew coordinates of the tetromino
+        MainWindow::redraw_current_piece(current_piece_.get_type());
+        MainWindow::delete_completed_row();
+        if (!MainWindow::game_over()) {
+            MainWindow::create_new_piece(int(distr(randomEng)));
+        }
+        else {
+            timer_->stop();
+            is_started_ = false;
+            ui->gameOverStatus->setText(" GAME OVER !");
+        }
+    }
+
+    MainWindow::render_current();
+}
+
+void MainWindow::redraw_current_piece(int type) {
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        game_grid_[current_piece_.get_coordinate(i).second]
+                  [current_piece_.get_coordinate(i).first] = type;
+    }
+}
+
+bool MainWindow::game_over() {
+    bool result = false;
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        if (game_grid_[next_piece_.get_coordinate(i).second]
+                [next_piece_.get_coordinate(i).first] != EMPTY) {
+            result = true;
+        }
+    }
+    return result;
+}
+
+void MainWindow::delete_completed_row() {
+    std::vector<int> completed_rows = {};
+    for (int i = 0; i < ROWS; i ++) {
+        bool complete = true;
+        for (int j = 0; j < COLUMNS; j++) {
+            if (game_grid_[i][j] == EMPTY) {
+                complete = false;
+            }
+        }
+        if (complete) {
+            completed_rows.push_back(i);
+            current_score += 10;
+            if (current_score < 300) {
+                timer_->start(500 - current_score);
+            }
+        }
+    }
+    for (auto row : completed_rows) {
+        for (int i = 0; i < row; i++) {
+            game_grid_[row-i] = game_grid_[row-i-1];
+        }
+        for (int j = 0; j < COLUMNS; j++) {
+            game_grid_[0].push_back(EMPTY);
+        }
+    }
+    ui->lcdNumberScore->display(current_score);
+}

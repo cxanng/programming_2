@@ -25,6 +25,10 @@ private slots:
     void initialize_game_grid();
     void render_current();
     void create_new_piece(int next_piece_type);
+    void dropping_current();
+    void redraw_current_piece(int type);
+    bool game_over();
+    void delete_completed_row();
 private:
     Ui::MainWindow *ui;
     // Graphics scenes to display the game play and the next piece
