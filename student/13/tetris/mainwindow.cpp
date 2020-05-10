@@ -47,3 +47,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::initialize_game_grid() {
+    game_grid_ = {};
+
+    for(int i = 0; i < ROWS; i++) {
+        std::vector<int> row = {};
+        for (int j = 0; j < COLUMNS; j++) {
+            row.push_back(EMPTY);
+        }
+        game_grid_.push_back(row);
+    }
+}

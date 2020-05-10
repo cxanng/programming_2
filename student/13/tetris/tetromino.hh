@@ -26,6 +26,30 @@
 // Number of blocks in one tetromino piece
 const int NUMBER_OF_BLOCKS = 4;
 
+// Constants for different tetrominos and the number of them
+enum Tetromino_kind {HORIZONTAL,
+                     LEFT_CORNER,
+                     RIGHT_CORNER,
+                     SQUARE,
+                     STEP_UP_RIGHT,
+                     PYRAMID,
+                     STEP_UP_LEFT,
+                     NUMBER_OF_TETROMINOS};
+
+// Constants describing scene coordinates
+// Copied from moving circle example and modified a bit
+const int BORDER_UP = 0;
+const int BORDER_DOWN = 480; // 260; (in moving circle)
+const int BORDER_LEFT = 0;
+const int BORDER_RIGHT = 240; // 680; (in moving circle)
+
+// Size of a tetromino component
+const int SQUARE_SIDE = 20;
+// Number of horizontal cells (places for tetromino components)
+const int COLUMNS = BORDER_RIGHT / SQUARE_SIDE;
+// Number of vertical cells (places for tetromino components)
+const int ROWS = BORDER_DOWN / SQUARE_SIDE;
+
 class Tetromino
 {
 public:
@@ -60,29 +84,7 @@ private:
     int x_;
     int y_;
 
-    // Constants for different tetrominos and the number of them
-    enum Tetromino_kind {HORIZONTAL,
-                         LEFT_CORNER,
-                         RIGHT_CORNER,
-                         SQUARE,
-                         STEP_UP_RIGHT,
-                         PYRAMID,
-                         STEP_UP_LEFT,
-                         NUMBER_OF_TETROMINOS};
 
-    // Constants describing scene coordinates
-    // Copied from moving circle example and modified a bit
-    const int BORDER_UP = 0;
-    const int BORDER_DOWN = 480; // 260; (in moving circle)
-    const int BORDER_LEFT = 0;
-    const int BORDER_RIGHT = 240; // 680; (in moving circle)
-
-    // Size of a tetromino component
-    const int SQUARE_SIDE = 20;
-    // Number of horizontal cells (places for tetromino components)
-    const int COLUMNS = BORDER_RIGHT / SQUARE_SIDE;
-    // Number of vertical cells (places for tetromino components)
-    const int ROWS = BORDER_DOWN / SQUARE_SIDE;
 
     // List that includes coordinate of 4 blocks of the tetromino
     std::map<int, std::pair<int, int>> list_;
