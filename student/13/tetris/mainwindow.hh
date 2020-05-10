@@ -23,11 +23,20 @@ public:
 
 private slots:
     void initialize_game_grid();
-
+    void render_current();
+    void create_new_piece(int next_piece_type);
 private:
     Ui::MainWindow *ui;
-
+    // Graphics scenes to display the game play and the next piece
     QGraphicsScene* scene_;
+    QGraphicsScene* display_next;
+    
+    // Timer to 
+    QTimer* timer_;
+    Tetromino current_piece_;
+    Tetromino next_piece_;
+    int current_score;
+    bool is_started_;
 
 
 

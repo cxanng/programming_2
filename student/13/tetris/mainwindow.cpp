@@ -4,7 +4,11 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    current_piece_(),
+    next_piece_(),
+    current_score(0),
+    is_started_(false)
 {
     ui->setupUi(this);
 
@@ -40,6 +44,12 @@ MainWindow::MainWindow(QWidget *parent) :
     // tetromino by calling: distr(randomEng) in a suitable method.
 
     // Add more initial settings and connect calls, when needed.
+
+    timer_ = new QTimer();
+    ui->displayNextGraphicsView->setScene(display_next);
+    MainWindow::initialize_game_grid();
+    next_piece_.initialize_tetromino(int(distr(randomEng)), COLUMNS/2 -1, 0);
+    MainWindow::create_new_piece(int(distr(randomEng)));
 }
 
 MainWindow::~MainWindow()
@@ -56,5 +66,43 @@ void MainWindow::initialize_game_grid() {
             row.push_back(EMPTY);
         }
         game_grid_.push_back(row);
+    }
+}
+
+void MainWindow::render_current() {
+    scene_->clear();
+    display_next->clear();
+
+    QPen blackPen(Qt::black);
+    blackPen.setWidth(1);
+
+    std::map<int, QBrush> color;
+    color[HORIZONTAL] = QBrush(Qt::cyan);
+    color[LEFT_CORNER] = QBrush(Qt::blue);
+    color[RIGHT_CORNER] = QBrush(Qt::gray);
+    color[SQUARE] = QBrush(Qt::yellow);
+    color[STEP_UP_RIGHT] = QBrush(Qt::green);
+    color[PYRAMID] = QBrush(Qt::magenta);
+    color[STEP_UP_LEFT] = QBrush(Qt::red);
+    color[EMPTY] = QBrush(Qt::white);
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLUMNS; j++) {
+            if (game_grid_[i][j] != EMPTY) {
+                int x = SQUARE_SIDE * j;
+                int y = SQUARE_SIDE * i;
+                scene_->addRect(x, y, SQUARE_SIDE, SQUARE_SIDE,
+                                        blackPen, color[game_grid_[i][j]]);
+            }
+        }
+    }
+}
+
+void MainWindow::create_new_piece(int next_piece_type) {
+    current_piece_.set_tetromino(next_piece_);
+    next_piece_.initialize_tetromino(next_piece_type, 5, 0);
+    for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+        game_grid_[current_piece_.get_coordinate(i).second]
+                  [current_piece_.get_coordinate(i).first] = current_piece_.get_type();
     }
 }
