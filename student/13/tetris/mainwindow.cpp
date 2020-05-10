@@ -185,3 +185,25 @@ void MainWindow::delete_completed_row() {
     }
     ui->lcdNumberScore->display(current_score);
 }
+
+void MainWindow::quick_dropping() {
+    bool able_to_move = true;
+    MainWindow::redraw_current_piece(EMPTY);
+
+    while (true) {
+        for (int i = 0; i < NUMBER_OF_BLOCKS; i++) {
+            if (current_piece_.get_coordinate(i).second == ROWS - 1
+                    || game_grid_[current_piece_.get_coordinate(i).second + 1]
+                    [current_piece_.get_coordinate(i).first] != EMPTY) {
+                able_to_move = false;
+            }
+        }
+        if (able_to_move) {
+            current_piece_.dropping();
+        }
+        else {
+            MainWindow::redraw_current_piece(current_piece_.get_type());
+            break;
+        }
+    }
+}

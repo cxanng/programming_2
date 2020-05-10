@@ -29,6 +29,7 @@ private slots:
     void redraw_current_piece(int type);
     bool game_over();
     void delete_completed_row();
+    void quick_dropping();
 private:
     Ui::MainWindow *ui;
     // Graphics scenes to display the game play and the next piece
